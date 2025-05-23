@@ -96,7 +96,7 @@ const PromptGenerator = () => {
       const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API });
       const result = await ai.models.generateContent({
         model: "gemini-2.0-flash",
-        contents: `${finalPrompt} , give me ans of the qeestions and explain in bangla`,
+        contents: `${finalPrompt} , give me ans of the qeestions in english and explain in bangla with bangla font`,
       });
 
       const aiText = result.text || "⚠️ No response from Gemini.";
@@ -162,23 +162,7 @@ const PromptGenerator = () => {
     <div className="flex flex-col h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-md">
-        <h1 className="text-xl font-bold text-white flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 mr-2"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 10V3L4 14h7v7l9-11h-7z"
-            />
-          </svg>
-          Gemini Chat Interface
-        </h1>
+       
       </div>
 
       {/* Conversation area */}
@@ -200,7 +184,7 @@ const PromptGenerator = () => {
               />
             </svg>
             <p className="text-center max-w-md">
-              Start a conversation with Gemini AI. Type your message below and
+              Start a conversation Type your message below and
               press enter.
             </p>
           </div>
@@ -342,8 +326,8 @@ const PromptGenerator = () => {
         />
 
         <div className="flex items-center justify-between">
-          <input type="file" {...register("image")} />
-          <input type="submit" />
+          <input className="file-input file-input" type="file" {...register("image")} />
+          <input className="btn btn-accent" type="submit" />
         </div>
       </form>
     </div>

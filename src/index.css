@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+body{
+    color: #4B352A;
+    color: #322C2B;
+    /* color: var(--color-light); */
+    /* color: #B2CD9C; */
+}
+

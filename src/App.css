@@ -1,42 +1,11 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@import "tailwindcss";
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+@plugin "daisyui";
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+@theme {
+  --color-background: #E3EEB2;   /* Deep Emerald - Main backgrounds */
+  --color-secondary: #047857; /* Rich Emerald - Secondary elements */
+  --color-btn: #71C0BB;    /* Bright Emerald - Highlights and buttons */
+  --color-light: #4E6688;     /* Light Emerald - Card backgrounds */
+  --color-text: #332D56;     /* Mint Cream - Primary text */
 }
