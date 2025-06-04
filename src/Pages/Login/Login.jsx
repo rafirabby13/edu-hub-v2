@@ -2,9 +2,9 @@ import React from "react";
 import { useContext } from "react";
 import a1 from "../../assets/Animation - 1735202385033.json";
 import Lottie from "lottie-react";
-import { toast } from "react-toastify";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { loginUser, googleLogin, setUser } = useContext(AuthContext);
@@ -22,10 +22,24 @@ const Login = () => {
       .then((res) => {
         setUser(res.user);
         // toast.success("Login Successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login Successfullyd",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate(location?.state ? location.state : "/");
       })
       .catch((err) => {
         // toast.error(err.message);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
@@ -34,11 +48,26 @@ const Login = () => {
       .then((res) => {
         console.log(res.user);
         // toast.success("Login Successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Signed in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
         setUser(res.user);
         navigate(location?.state ? location.state : "/");
       })
       .catch((err) => {
         // toast.error(err.message);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 

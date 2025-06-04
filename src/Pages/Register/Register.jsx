@@ -4,10 +4,9 @@ import { updateProfile } from "firebase/auth";
 import auth from "../../firebase/Firebase.init.js";
 import a1 from "../../assets/Animation - 1735202464545.json";
 import Lottie from "lottie-react";
-// import { Helmet } from "react-helmet";
-import { toast } from "react-toastify";
 import { AuthContext } from "../../providers/AuthProvider.jsx";
 import { Link, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const { registerUser, googleLogin, setUser } = useContext(AuthContext);
@@ -34,15 +33,36 @@ const Register = () => {
           .then(() => {
             console.log("updated");
             // toast.success("Registered Successfully");
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Registered Successfullyd",
+              showConfirmButton: false,
+              timer: 1500,
+            });
 
             navigate(location?.state ? location.state : "/");
           })
           .catch((err) => {
             // toast.error(err.message);
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `${err.message}`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
           });
       })
       .catch((err) => {
         // toast.error(err.message);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
@@ -50,12 +70,27 @@ const Register = () => {
     googleLogin()
       .then((res) => {
         console.log(res.user);
-        // toast.success("Registered Successfully");
+        // toast.success("Login Successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Signed in successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
         setUser(res.user);
         navigate(location?.state ? location.state : "/");
       })
       .catch((err) => {
         // toast.error(err.message);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 
@@ -64,7 +99,7 @@ const Register = () => {
       {/* <Helmet>
         <title>Register | Tutor Bridge</title>
       </Helmet> */}
-      
+
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-teal-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -80,7 +115,11 @@ const Register = () => {
               <div className="absolute inset-0 bg-white/5"></div>
               <div className="relative z-10 text-center">
                 <div className="w-80 h-80 mx-auto mb-6">
-                  <Lottie animationData={a1} className="w-full h-full" loop={true} />
+                  <Lottie
+                    animationData={a1}
+                    className="w-full h-full"
+                    loop={true}
+                  />
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
                   Join Our Community!
