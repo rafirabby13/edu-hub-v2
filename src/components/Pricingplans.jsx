@@ -91,7 +91,7 @@ export default function PricingPlans() {
           <div className="overflow-x-auto">
             <div className=" min-w-full ">
               <div className="bg-slate-800/50 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-2xl overflow-hidden">
-                <div className="grid grid-cols-3 gap-0 border-b border-slate-700/50">
+                <div className="md:grid grid-cols-3 gap-0 border-b border-slate-700/50">
                   {plans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (

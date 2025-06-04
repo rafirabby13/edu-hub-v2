@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "./Button";
 import { Link } from "react-router";
 import { Menu, X, Zap } from "lucide-react";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const {name} = useContext(AuthContext)
+  console.log(name)
 
   const items = (
     <>
