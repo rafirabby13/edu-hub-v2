@@ -119,15 +119,28 @@ const Navbar = () => {
 
           {/* CTA Buttons */}
           {user && user.email ? (
-            <div className=" bg-teal-500   rounded-2xl px-6 py-1 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-900 flex items-center gap-3 max-w-md">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">
-                  {user?.email?.charAt(0).toUpperCase()}
-                </span>
+            <div className="flex items-center gap-4">
+              <div className=" bg-teal-500   rounded-2xl px-6 py-1 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-900 flex items-center gap-3 max-w-md">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">
+                    {user?.email?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <p className="text-white font-medium flex-1 truncate hidden md:flex">
+                  {user?.email}
+                </p>
               </div>
-              <p className="text-white font-medium flex-1 truncate hidden md:flex">
-                {user?.email}
-              </p>
+              <div
+                className="  hidden md:flex"
+                onClick={handleLogout}
+              >
+                <Link
+                  className="block w-full bg-teal-500 text-center py-3 px-4 text-white hover:text-white font-medium rounded-lg hover:bg-slate-700/50 transition-all duration-300 border border-slate-700/50"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Logout
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="hidden sm:flex items-center gap-3">

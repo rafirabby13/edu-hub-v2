@@ -1,22 +1,22 @@
-// /* eslint-disable no-unused-vars */
-// /* eslint-disable react/prop-types */
+import React, { useContext } from 'react'
+import { Navigate, useLocation } from 'react-router';
+import { AuthContext } from '../providers/AuthProvider';
+import Loading from '../components/Loading';
 
-// import Loading from "../components/Loading.jsx";
-// import { Navigate, useLocation, useNavigate } from "react-router-dom";
+const Privateroutes = ({children}) => {
+   const location = useLocation()
+  console.log(location);
+    const {loading, user} = useContext(AuthContext)
+    console.log("loading", loading);
+    if (loading) {
+        return <Loading/>
+    }
 
-// const PrivateRoute = ({children}) => {
-//     // const navigte = useNavigate()
-//   const location = useLocation()
-// //   console.log(location);
-//     const {loading, user} = useContext(AuthContext)
-//     if (loading) {
-//         return <Loading/>
-//     }
-//     if (!user) {
-//         return <Navigate state={location.pathname} to='/login'></Navigate>
-//     }
+    if (!user) {
+        return <Navigate to="/login" state={{ from: location }} replace />
+    }
 
-//     return children;
-// };
+    return children;
+}
 
-// export default PrivateRoute;
+export default Privateroutes

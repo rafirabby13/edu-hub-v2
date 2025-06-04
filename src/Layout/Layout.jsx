@@ -1,12 +1,12 @@
 import React from "react";
-import { createBrowserRouter } from "react-router";
 import App from "../App";
 import Home from "../Pages/Home/Home";
 import PricingPlans from "../components/Pricingplans";
-import Tessaract from "../components/Tessaract";
 import PromptGenerator from "../components/PromptGenerator";
 import Login from './../Pages/Login/Login';
 import Register from './../Pages/Register/Register';
+import { createBrowserRouter } from "react-router";
+import Privateroutes from "./Privateroutes";
 
 
 export const router = createBrowserRouter([
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "upload",
-        element: <PromptGenerator/>
+        element: <Privateroutes><PromptGenerator/></Privateroutes>
       },
       {
         path: "login",
