@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [booking, setBooking] = useState(true);
   const [theme, setTheme] = useState('light')
+  const [responseCount, setResponseCount] = useState(0)
   const [tutors, setTutors] = useState([]);
 
   const googleProvider = new GoogleAuthProvider()
@@ -54,11 +55,12 @@ const AuthProvider = ({ children }) => {
     theme, 
     googleLogin,
     setTheme,
-    name: "fahim"
+    responseCount,
+    setResponseCount
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("currentUser", currentUser?.email);
+      // console.log("currentUser", currentUser?.email);
       setUser(currentUser);
       setLoading(false)
      

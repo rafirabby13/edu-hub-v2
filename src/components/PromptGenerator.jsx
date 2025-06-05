@@ -1,20 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { GoogleGenAI } from "@google/genai";
 import Tessaract from "./Tessaract";
 import { useForm } from "react-hook-form";
 import { createWorker } from "tesseract.js";
+import { AuthContext } from "../providers/AuthProvider";
+import { Navigate, useNavigate } from "react-router";
 
 const PromptGenerator = () => {
-  const [prompt, setPrompt] = useState("");
   const { register, handleSubmit, reset } = useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [conversation, setConversation] = useState([]);
-  const [ocrStatus, setOcrStatus] = useState("");
-  //   setOcrStatus("Processing image with OCR...");
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const { responseCount, setResponseCount } = useContext(AuthContext);
   //   console.log(prompt);
   // Auto-scroll to bottom when conversation updates
   useEffect(() => {
@@ -115,6 +115,8 @@ Here is the topic or question: ${finalPrompt}`,
       setError("❌ Failed to get response. Check API key or connection.");
     } finally {
       setLoading(false);
+      setResponseCount(responseCount + 1);
+     
     }
   };
 

@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logoutUser } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
 
   const handleLogout = () => {
     Swal.fire({
