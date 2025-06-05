@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Check, X, Star, Zap, Crown, Shield } from "lucide-react";
+import { Link, replace } from "react-router";
+import axios from "axios";
+import { AuthContext } from "../providers/AuthProvider";
 
 export default function PricingPlans() {
   const [hoveredPlan, setHoveredPlan] = useState("");
   const [isAnnual, setIsAnnual] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const plans = [
     {
@@ -63,6 +67,24 @@ export default function PricingPlans() {
       },
     };
     return colors[color][type];
+  };
+
+  const handlePayment = async () => {
+    const paymentInfo = {
+      price: 50,
+      email: `${user?.email}`,
+      transactionId: "",
+      date: new Date(),
+      status: "pending",
+    };
+    const response = await axios.post(
+      "http://localhost:5000/create-ss-payment",
+      paymentInfo
+    );
+    console.log(response);
+    if (response?.data?.getwayURL) {
+      window.location.replace(response?.data?.getwayURL);
+    }
   };
 
   return (
@@ -145,6 +167,7 @@ export default function PricingPlans() {
                           </div>
 
                           <button
+                            onClick={handlePayment}
                             className={`w-full py-3 px-6 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 ${
                               plan.popular
                                 ? `bg-gradient-to-r ${getColorClasses(
@@ -160,7 +183,9 @@ export default function PricingPlans() {
                                   )} hover:bg-${plan.color}-500/10`
                             }`}
                           >
-                            {plan.popular ? "Start Free Trial" : "Get Started"}
+                            {plan.popular
+                              ? "Buy Your Unlimited Premium"
+                              : "Get Started"}
                           </button>
                         </div>
                       </div>
