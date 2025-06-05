@@ -7,6 +7,7 @@ import Login from './../Pages/Login/Login';
 import Register from './../Pages/Register/Register';
 import { createBrowserRouter } from "react-router";
 import Privateroutes from "./Privateroutes";
+import ReactDOM from "react-dom/client";
 
 
 export const router = createBrowserRouter([
