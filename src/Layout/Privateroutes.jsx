@@ -16,7 +16,8 @@ const Privateroutes = ({ children }) => {
   useEffect(() => {
     const userPaymentStatus = async () => {
       const response = await axios.get(
-        `https://edu-hub-server-1p4b.vercel.app/${user?.email}`
+        `http://localhost:5000/${user?.email}`
+        // `https://edu-hub-server-1p4b.vercel.app/${user?.email}`
       );
       setStatus(response?.data?.status)
       console.log(response.data);

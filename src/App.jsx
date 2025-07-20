@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
@@ -6,11 +7,14 @@ import "./App.css";
 import PromptGenerator from "./components/PromptGenerator";
 import Tessaract from "./components/Tessaract";
 import Navbar from "./components/Navbar";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import Footer from "./components/Footer";
 
 function App() {
   const [count, setCount] = useState(0);
+
+  const location = useLocation()
+  console.log(location.pathname)
 
   return (
     <div className="">
@@ -18,7 +22,10 @@ function App() {
       <Navbar />
       <section className="h-[82px]"></section>
       <Outlet />
-      <Footer/>
+      {
+        location.pathname == "/upload" ? "" : <Footer />
+      }
+
       {/* <PromptGenerator/> */}
       {/* <Tessaract/> */}
     </div>

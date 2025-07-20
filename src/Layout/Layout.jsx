@@ -11,6 +11,7 @@ import ReactDOM from "react-dom/client";
 import Faq from "../components/Faq";
 import BlogSection from "../components/BlogSection";
 import Plans from './../components/Plans';
+import Chat from "../components/Chat";
 
 
 export const router = createBrowserRouter([
@@ -29,7 +30,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "upload",
-        element: <Privateroutes><PromptGenerator/></Privateroutes>
+        // element: <Privateroutes><PromptGenerator /></Privateroutes>
+        element: <Privateroutes><Chat /></Privateroutes>
       },
       {
         path: "login",
@@ -47,10 +49,10 @@ export const router = createBrowserRouter([
         path: "blog",
         element: <BlogSection/>
       },
-      {
-        path: "chat",
-        element: 
-      }
+      // {
+      //   path: "chat",
+      //   element: <Chat/>
+      // }
     ],
   },
 ]);
