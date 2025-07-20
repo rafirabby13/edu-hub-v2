@@ -74,6 +74,16 @@ const Navbar = () => {
           <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></span>
         </Link>
       </li>
+      <li>
+        <Link
+          to="/faq"
+          className="relative hover:text-emerald-400 transition-colors duration-300 text-slate-300 hover:text-white group py-2 px-4 rounded-lg hover:bg-slate-800/50"
+        >
+          FAQ
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></span>
+        </Link>
+      </li>
+      
     </>
   );
 
