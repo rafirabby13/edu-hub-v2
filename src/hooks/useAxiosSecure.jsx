@@ -21,8 +21,8 @@ const useAxiosSecure = () => {
             console.log("object", config)
             return config
         }, (error) => {
-            console.log(error.response.status)
-            if (error?.response?.status === 401 || error?.response?.status === 403) {
+            console.log("error.response.status.......",error.response.status)
+            if (error?.response?.status === 401 || error?.response?.status === 404) {
                 logoutUser()
                     .then(() => {
                         console.log("need to logout user ")

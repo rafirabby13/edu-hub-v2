@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
         // axios.post("http://localhost:5000/jwt", user, { withCredentials: true })
         
         axiosSecure.post("/jwt", user).then(res=>{
-          console.log(res.data)
+          // console.log(res.data)
           if (res.data.success) {
             setLoading(false)
             

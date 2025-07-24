@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { Check, X, Star, Zap, Crown, Shield, Camera, Brain, BookOpen } from "lucide-react";
 import { AuthContext } from "../providers/AuthProvider";
 import axios from "axios";
+import { axiosSecure } from "../hooks/useAxiosConfig";
 
 export default function Plans() {
   const [hoveredPlan, setHoveredPlan] = useState("");
@@ -96,18 +97,18 @@ export default function Plans() {
      const paymentInfo = {
       price: plan?.monthlyPrice,
       email: `${user?.email}`,
+      plan_type: plan?.name,
       transactionId: "",
-      date: new Date(),
+      subscription_start_date: new Date(),
       status: "pending",
+      date: new Date()
     };
-        const response = await axios.post(
-      `${import.meta.env.VITE_url}create-ss-payment`,
-      paymentInfo
-    );
-    console.log(response);
-    if (response?.data?.getwayURL) {
-      window.location.replace(response?.data?.getwayURL);
-    }
+    console.log(paymentInfo)
+    //     const response = await axiosSecure("/create-ss-payment",paymentInfo);
+    // console.log(response);
+    // if (response?.data?.getwayURL) {
+    //   window.location.replace(response?.data?.getwayURL);
+    // }
   };
 
   return (

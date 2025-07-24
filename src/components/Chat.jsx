@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef } from 'react';
 import { Send, Trash2, Sparkles, MessageCircle, Bot, User, BarChart2, Mic, Plus } from 'lucide-react';
 import { createWorker } from "tesseract.js";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useAxiosSecure from '../hooks/useAxiosSecure';
-import { axiosSecure } from '../hooks/useAxiosConfig';
 
 const Chat = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -20,6 +20,8 @@ const Chat = () => {
     // const axiosSecure = useAxiosSecure()
 
     const messagesContainerRef = useRef(null);
+
+    const axiosSecure = useAxiosSecure()
 
 
     // Remove selected image
