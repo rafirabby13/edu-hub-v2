@@ -11,9 +11,7 @@ import ReactDOM from "react-dom/client";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}>
-        <App />
-      </RouterProvider>
+      <RouterProvider router={router}/>
     </AuthProvider>
   </StrictMode>
 );

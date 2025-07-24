@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Send, Trash2, Sparkles, MessageCircle, Bot, User } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Send, Trash2, Sparkles, MessageCircle, Bot, User, BarChart2, Mic, Plus } from 'lucide-react';
 import { createWorker } from "tesseract.js";
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import { axiosSecure } from '../hooks/useAxiosConfig';
 
 const Chat = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -14,7 +16,8 @@ const Chat = () => {
     const [extractedText, setExtractedText] = useState('');
     const fileInputRef = useRef(null);
     const messagesEndRef = useRef(null);
-    const textareaRef = useRef(null);
+    // const textareaRef = useRef(null);
+    // const axiosSecure = useAxiosSecure()
 
     const messagesContainerRef = useRef(null);
 
@@ -23,7 +26,7 @@ const Chat = () => {
     const removeImage = () => {
         setImage(null);
         setExtractedText('');
-  
+
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
@@ -36,7 +39,7 @@ const Chat = () => {
         let ocrText = "";
         const hasText = data.text?.trim();
         const hasImage = data.image && data.image.length > 0;
-        console.log(data)
+        // console.log(data)
         try {
             if (!hasText && !hasImage) {
                 setError(
@@ -97,7 +100,7 @@ const Chat = () => {
 
             setMessages(prev => [...prev, userMessage]);
             const currentInput = userMessage.content;
-            console.log(currentInput)
+            // console.log(currentInput)
             // setInput('');
             setLoading(true);
             setError('');
@@ -106,7 +109,8 @@ const Chat = () => {
 
             try {
                 // Simulated API call - replace with your actual endpoint
-                const res = await axios.post("http://localhost:5000/prompt-message", { input: currentInput });
+                // const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/prompt-message`, { input: currentInput }, {withCredentials: true});
+                const res = await axiosSecure.post("/prompt-message",{ input: currentInput })
 
                 if (!res) throw new Error('Failed to send message');
 
@@ -136,16 +140,16 @@ const Chat = () => {
         }
     }
 
-   
+
     const handleKeyPress = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            sendMessage();
+            // sendMessage();
         }
     };
 
 
-  
+
 
     const formatTime = (timestamp) => {
         return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -153,46 +157,11 @@ const Chat = () => {
 
     return (
         <div className=" bg-gradient-to-br from-indigo-50 via-white to-purple-50 ">
-            <div className="max-w-6xl mx-auto p-4 flex flex-col">
-                {/* Header */}
-                {/* <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 mb-4">
-          <div className="p-6 flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <MessageCircle className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  AI Chat Assistant
-                </h1>
-                <p className="text-sm text-gray-500">English & বাংলা Support</p>
-              </div>
-            </div>
-            
-            <div className="flex space-x-3">
-              <button
-                onClick={handleTestBilingual}
-                className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg flex items-center space-x-2"
-                disabled={loading}
-              >
-                <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-medium">Test Bilingual</span>
-              </button>
-              
-              <button
-                onClick={clearConversation}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-200 transform hover:scale-105 flex items-center space-x-2"
-                disabled={messages.length === 0}
-              >
-                <Trash2 className="w-4 h-4" />
-                <span className="text-sm font-medium">Clear</span>
-              </button>
-            </div>
-          </div>
-        </div> */}
+            <div className=" mx-auto  flex flex-col ">
+
 
                 {/* Messages Area */}
-                <div className="absolute top-20 bottom-0 left-96 right-96 bg-white/60 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden flex flex-col">
+                <div className="absolute top-20 bottom-0 left-0 right-0 xl:left-96 xl:right-96 bg-white/60 backdrop-blur-sm rounded-2xl shadow-xl  overflow-hidden flex flex-col">
                     <div
                         ref={messagesContainerRef}
                         className="flex-1 overflow-y-auto p-6 space-y-4"
@@ -202,7 +171,7 @@ const Chat = () => {
                                 <div className="w-20 h-20 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
                                     <Bot className="w-10 h-10 text-indigo-500" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-700 mb-2">Welcome to AI Chat</h3>
+                                <h3 className="text-xl font-semibold text-gray-700 mb-2">Welcome t AI Chat</h3>
                                 <p className="text-gray-500 max-w-md">
                                     Start a conversation by typing a message below. I can respond in both English and বাংলা.
                                 </p>
@@ -269,8 +238,8 @@ const Chat = () => {
 
                     {/* Input Area */}
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="border-t border-gray-200 p-6">
-                            <div className="flex space-x-4 items-end">
+                        <div className="border-t border-gray-200 p-1">
+                            <div className=" space-x-4 items-end">
                                 <div className="flex-1 relative">
 
                                     <textarea
@@ -280,62 +249,58 @@ const Chat = () => {
 
 
                                         onKeyPress={handleKeyPress}
-                                        placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
+                                        placeholder="Type your message here... "
                                         className="w-full p-4 pr-12 border border-gray-300 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/80 backdrop-blur-sm"
-                                        rows="2"
+                                        rows="3"
                                         disabled={loading}
                                         style={{ minHeight: '60px', maxHeight: '120px' }}
                                     />
-                                    <input
-                                        {...register("image")}
-                                        type="file"
-                                        className="file-input"
 
-                                    />
-                                    {/* <input
-                                    type="file"
-                                    className="file-input"
-                                    onChange={(e) => {
-                                        const file = e.target.files?.[0]; // Get the first selected file
-                                        if (file) {
-                                            setImage(file); // Assuming setImage expects a File object
-                                        }
-                                    }}
-                                /> */}
 
+                                    <div className='flex items-center justify-between absolute bottom-2 right-0 left-0 rounded-2xl bg-amber-100/10'>
+                                        <input
+                                            {...register("image")}
+                                            type="file"
+                                            className="file-input file-input-ghost rounded-2xl  file-input-accent"
+
+                                        />
+
+                                        <button
+                                            type='submit'
+
+                                            disabled={loading}
+                                            className="group relative flex-shrink-0 px-4 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-800 disabled:from-gray-300 disabled:via-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed text-white rounded-2xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 shadow-xl hover:shadow-2xl flex items-centerjustify-center overflow-hidden"
+                                        >
+
+
+
+
+                                            <div className="relative flex items-center  ">
+                                                {loading ? (
+                                                    <>
+                                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                        <span className="font-semibold text-sm">Sending</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Send className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+
+                                                        {/* <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
+                                                    </>
+                                                )}
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
 
-                                <button
-                                    type='submit'
-
-                                    disabled={loading}
-                                    className="group relative flex-shrink-0 px-8 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-800 disabled:from-gray-300 disabled:via-gray-400 disabled:to-gray-300 disabled:cursor-not-allowed text-white rounded-2xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 shadow-xl hover:shadow-2xl flex items-center space-x-3 min-w-[100px] justify-center overflow-hidden"
-                                >
-                                    {/* Animated background gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                                    {/* Button content */}
-                                    <div className="relative flex items-center space-x-2">
-                                        {loading ? (
-                                            <>
-                                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                                <span className="font-semibold text-sm">Sending</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Send className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-                                                <span className="font-semibold text-sm">Send</span>
-                                                <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                            </>
-                                        )}
-                                    </div>
-                                </button>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
+
     );
 };
 

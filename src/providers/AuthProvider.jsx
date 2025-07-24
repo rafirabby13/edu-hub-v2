@@ -9,6 +9,8 @@ import {
   signOut,
 } from "firebase/auth";
 import auth from "../firebase/Firebase.init.js";
+import axios from "axios";
+import { axiosSecure } from "../hooks/useAxiosConfig.jsx";
 
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
@@ -18,6 +20,7 @@ const AuthProvider = ({ children }) => {
   const [theme, setTheme] = useState('light')
   const [responseCount, setResponseCount] = useState(0)
   const [tutors, setTutors] = useState([]);
+
 
   const googleProvider = new GoogleAuthProvider()
 
@@ -62,7 +65,32 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       // console.log("currentUser", currentUser?.email);
       setUser(currentUser);
-      setLoading(false)
+      if (currentUser?.email) {
+        const user = {
+          email: currentUser.email
+        }
+        // axios.post("http://localhost:5000/jwt", user, { withCredentials: true })
+        
+        axiosSecure.post("/jwt", user).then(res=>{
+          console.log(res.data)
+          if (res.data.success) {
+            setLoading(false)
+            
+          }
+        })
+
+        
+      }
+      else{
+        axios.post("http://localhost:5000/logout", {}, {withCredentials: true}).then(res=>{
+          console.log(res.data)
+          if (res.data.success) {
+            setLoading(false)
+            
+          }
+        })
+        
+      }
      
     });
 
