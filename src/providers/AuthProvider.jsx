@@ -70,6 +70,10 @@ const AuthProvider = ({ children }) => {
           email: currentUser.email
         }
         // axios.post("http://localhost:5000/jwt", user, { withCredentials: true })
+
+        axiosSecure.post('/create-user',  user).then(res=>{
+          console.log(res.data)
+        })
         
         axiosSecure.post("/jwt", user).then(res=>{
           // console.log(res.data)

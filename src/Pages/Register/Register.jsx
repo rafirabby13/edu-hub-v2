@@ -147,7 +147,7 @@ const Register = () => {
                 </div>
 
                 <div onSubmit={handleRegister} className="space-y-5">
-                  <div className="group">
+                  {/* <div className="group">
                     <label className="block text-sm font-medium text-gray-200 mb-2 group-focus-within:text-emerald-300 transition-colors">
                       Full Name
                     </label>
@@ -161,7 +161,7 @@ const Register = () => {
                       />
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity -z-10"></div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="group">
                     <label className="block text-sm font-medium text-gray-200 mb-2 group-focus-within:text-emerald-300 transition-colors">
@@ -195,7 +195,7 @@ const Register = () => {
                     </div>
                   </div>
 
-                  <div className="group">
+                  {/* <div className="group">
                     <label className="block text-sm font-medium text-gray-200 mb-2 group-focus-within:text-emerald-300 transition-colors">
                       Profile Photo URL
                     </label>
@@ -209,7 +209,7 @@ const Register = () => {
                       />
                       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity -z-10"></div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="text-center">
                     <p className="text-gray-300 text-sm">

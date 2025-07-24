@@ -20,7 +20,7 @@ function App() {
     <div className="">
       {/* //lg:max-w-[80%] lg:mx-auto */}
       <Navbar />
-      <section className="h-[82px]"></section>
+      <section className="h-[74px]"></section>
       <Outlet />
       {
         location.pathname == "/upload" ? "" : <Footer />

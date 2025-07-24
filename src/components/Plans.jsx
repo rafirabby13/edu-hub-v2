@@ -2,13 +2,18 @@
 import React, { useContext, useState } from "react";
 import { Check, X, Star, Zap, Crown, Shield, Camera, Brain, BookOpen } from "lucide-react";
 import { AuthContext } from "../providers/AuthProvider";
-import axios from "axios";
-import { axiosSecure } from "../hooks/useAxiosConfig";
+import { useNavigate } from "react-router";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { axiosPublic } from "../hooks/useAxiosPublic";
+// import { axiosSecure } from "../hooks/useAxiosConfig";
 
 export default function Plans() {
   const [hoveredPlan, setHoveredPlan] = useState("");
   const [isAnnual, setIsAnnual] = useState(false);
   const { user } = useContext(AuthContext);
+  // console.log(user)
+  const navigate = useNavigate()
+  const axiosSecure = useAxiosSecure()
 
   const plans = [
     {
@@ -18,14 +23,15 @@ export default function Plans() {
       description: "Perfect for students getting started",
       monthlyPrice: 99,
       color: "slate",
+      date_limit: 30,
+      plan_limit: { image: 50, text: 100 },
       popular: false,
       features: [
-        "৫০টি ছবি (Snap Upload)",
-        "৭ দিন",
-        "GPT-3.5",
-        "ইংরেজি উত্তর + বাংলা ব্যাখ্যা",
-        "University / SSC / ৩-১০ শিক্ষার্থী",
-        "বিনামূল্যে ৫৯৯"
+        "50 Image",
+        "100 Text",
+        "30 Days",
+        "ইংরেজি উত্তর + বাংলা ব্যাখ্যা"
+
       ]
     },
     {
@@ -33,16 +39,17 @@ export default function Plans() {
       name: "SOLVER PRO",
       icon: Zap,
       description: "Best for serious learners",
-      monthlyPrice: 199,
+      monthlyPrice: 299,
       color: "emerald",
+      date_limit: 60,
+      plan_limit: { image: 150, text: 320 },
+
       popular: true,
       features: [
-        "২৫০টি ছবি",
-        "৩০ দিন",
-        "GPT-3.5",
-        "ইংরেজি উত্তর + বাংলা ব্যাখ্যা",
-        "BCS/ University/ HSC / কোচিং / শিক্ষক / রেফারেন্স ইউজার",
-        "Snap Usage Tracker"
+        "150 Image",
+        "320 Text",
+        "60 Days",
+        "ইংরেজি উত্তর + বাংলা ব্যাখ্যা"
       ]
     },
     {
@@ -50,16 +57,17 @@ export default function Plans() {
       name: "SOLVER ELITE",
       icon: Crown,
       description: "For advanced users and professionals",
-      monthlyPrice: 399,
+      monthlyPrice: 499,
       color: "purple",
       popular: false,
+      date_limit: 90,
+      plan_limit: { image: 250, text: 6500 },
+
       features: [
-        "১০০টি ছবি",
-        "৩০ দিন",
-        "GPT-4 (Advanced)",
-        "ইংরেজি উত্তর + এডভান্স বাংলা ও সংক্ষিপ্ত ব্যাখ্যা",
-        "BCS / IELTS / GRE/ PTE/ ভার্সিটি ভর্তি শিক্ষক ও শিক্ষার্থী",
-        "Writing Task, Long Answer AI",
+        "250 Image",
+        "650 Text",
+        "90 Days",
+        "ইংরেজি উত্তর + বাংলা ব্যাখ্যা"
       ]
     },
   ];
@@ -92,23 +100,34 @@ export default function Plans() {
   };
 
   const handlePayment = async (plan) => {
+    if (!user) {
+      navigate("/login")
+    }
+    const userFromDB = await axiosPublic.get(`/user/?email=${user?.email}`)
+    // console.log(userFromDB.data._id)
+    const userId=userFromDB.data._id
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + plan?.date_limit); // plan.date_limit in days
     // Simulating payment process
     console.log(plan)
-     const paymentInfo = {
+    const paymentInfo = {
       price: plan?.monthlyPrice,
       email: `${user?.email}`,
-      plan_type: plan?.name,
+      userId: userId,
+      plan_type: plan?.id,
       transactionId: "",
       subscription_start_date: new Date(),
-      status: "pending",
-      date: new Date()
+      subscription_end_date: endDate,
+      payment_status: "pending",
+      payment_date: new Date()
     };
     console.log(paymentInfo)
-    //     const response = await axiosSecure("/create-ss-payment",paymentInfo);
-    // console.log(response);
-    // if (response?.data?.getwayURL) {
-    //   window.location.replace(response?.data?.getwayURL);
-    // }
+    
+    const response = await axiosSecure.post("/create-ss-payment", paymentInfo);
+    console.log(response);
+    if (response?.data?.getwayURL) {
+      window.location.replace(response?.data?.getwayURL);
+    }
   };
 
   return (
@@ -143,21 +162,20 @@ export default function Plans() {
                     return (
                       <div
                         key={plan.id}
-                        className={`p-8 relative border-r border-slate-700/50 last:border-r-0 ${
-                          plan.popular
-                            ? "bg-gradient-to-b from-emerald-500/10 to-transparent relative"
-                            : ""
-                        }`}
+                        className={`p-8 relative border-r border-slate-700/50 last:border-r-0 ${plan.popular
+                          ? "bg-gradient-to-b from-emerald-500/10 to-transparent relative"
+                          : ""
+                          }`}
                         onMouseEnter={() => setHoveredPlan(plan.id)}
                         onMouseLeave={() => setHoveredPlan("")}
                       >
-                        {plan.popular && (
+                        {/* {plan.popular && (
                           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                             <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
                               🚀 Most Popular
                             </div>
                           </div>
-                        )}
+                        )} */}
 
                         <div className="text-center mb-6">
                           <div
@@ -209,21 +227,20 @@ export default function Plans() {
                         </div>
 
                         <button
-                          onClick={()=>handlePayment(plan)}
-                          className={`w-full py-3 px-6 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 ${
-                            plan.popular
-                              ? `bg-gradient-to-r ${getColorClasses(
-                                  plan.color,
-                                  "gradient"
-                                )} text-white shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40`
-                              : `border-2 ${getColorClasses(
-                                  plan.color,
-                                  "border"
-                                )} ${getColorClasses(
-                                  plan.color,
-                                  "text"
-                                )} hover:bg-${plan.color}-500/10`
-                          }`}
+                          onClick={() => handlePayment(plan)}
+                          className={`w-full py-3 px-6 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 ${plan.popular
+                            ? `bg-gradient-to-r ${getColorClasses(
+                              plan.color,
+                              "gradient"
+                            )} text-white shadow-xl shadow-emerald-500/25 hover:shadow-emerald-500/40`
+                            : `border-2 ${getColorClasses(
+                              plan.color,
+                              "border"
+                            )} ${getColorClasses(
+                              plan.color,
+                              "text"
+                            )} hover:bg-${plan.color}-500/10`
+                            }`}
                         >
                           {plan.popular
                             ? "Get Premium Access"
