@@ -103,9 +103,9 @@ export default function Plans() {
     if (!user) {
       navigate("/login")
     }
-    const userFromDB = await axiosPublic.get(`/user/?email=${user?.email}`)
+    // const userFromDB = await axiosPublic.get(`/user/?email=${user?.email}`)
     // console.log(userFromDB.data._id)
-    const userId=userFromDB.data._id
+    // const userId=userFromDB.data._id
     const endDate = new Date();
     endDate.setDate(endDate.getDate() + plan?.date_limit); // plan.date_limit in days
     // Simulating payment process
@@ -113,7 +113,7 @@ export default function Plans() {
     const paymentInfo = {
       price: plan?.monthlyPrice,
       email: `${user?.email}`,
-      userId: userId,
+      userId: user?.uid,
       plan_type: plan?.id,
       transactionId: "",
       subscription_start_date: new Date(),

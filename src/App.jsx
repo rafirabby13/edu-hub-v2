@@ -14,7 +14,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   const location = useLocation()
-  console.log(location.pathname)
+  // console.log(location.pathname)
 
   return (
     <div className="">
